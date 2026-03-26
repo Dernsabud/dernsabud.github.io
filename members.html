@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>DERNSABUD | NEON FIRE EDITION</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
+        
+        body { background: #05060b; color: #e2e8f0; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        .bg-mesh { position: fixed; inset: 0; z-index: -1; opacity: 0.15; background-image: url('https://img2.pic.in.th/logoblack.jpg'); background-size: cover; background-position: center; filter: saturate(0); }
+
+        /* --- เอฟเฟกต์ไฟวิ่งรอบการ์ด --- */
+        .member-card { 
+            position: relative; 
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 1.5rem; 
+            overflow: hidden; 
+            padding: 2px;
+            transition: 0.4s ease;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--neon-color, #a855f7));
+            animation: rotate-fire 4s linear infinite;
+            z-index: 0;
+        }
+
+        .card-content {
+            position: relative;
+            background: #0d0e14;
+            border-radius: 1.4rem;
+            padding: 1.5rem;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes rotate-fire { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .type-boss { --neon-color: #a855f7; }
+        .type-leader { --neon-color: #3b82f6; }
+        .type-support { --neon-color: #22c55e; }
+        .type-member { --neon-color: #06b6d4; }
+
+        .member-card:hover { transform: translateY(-10px); box-shadow: 0 0 30px var(--neon-color); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.5rem; }
+        .animate-spin-slow { animation: spin 10s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .pause-spin { animation-play-state: paused; }
+    </style>
+</head>
+<body class="flex min-h-screen">
+    <div class="bg-mesh"></div>
+
+    <aside class="w-24 m-6 flex flex-col items-center fixed left-0 top-0 z-50 h-[calc(100vh-3rem)]">
+        <div class="glass w-full h-full p-6 flex flex-col items-center gap-10">
+            <img src="https://img2.pic.in.th/logoblack.jpg" class="w-12 h-12 rounded-2xl shadow-lg">
+            <nav class="flex flex-col gap-6">
+                <a href="index.html" class="w-14 h-14 flex items-center justify-center rounded-2xl text-gray-500 hover:text-white hover:bg-white/5 transition-all">
+                    <i class="fa-solid fa-house-chimney text-xl"></i>
+                </a>
+                <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-purple-600 text-white shadow-lg shadow-purple-500/40">
+                    <i class="fa-solid fa-user-group text-xl"></i>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="flex-1 ml-36 p-12">
+        <header class="mb-16 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-10">
+            <div>
+                <h1 class="text-8xl font-black text-white italic tracking-tighter leading-none">DERNSABUD</h1>
+                <p class="text-purple-500 font-bold tracking-[0.5em] text-xs mt-4 uppercase border-l-4 border-purple-600 pl-4">Dernsabud IN STRONG</p>
+            </div>
+            
+            <div class="grid grid-cols-4 gap-4 p-2 glass">
+                <div class="px-6 py-4 text-center"><p id="count-boss" class="text-3xl font-black text-purple-500">0</p><p class="text-[9px] text-gray-500 uppercase font-bold">Boss</p></div>
+                <div class="px-6 py-4 text-center border-l border-white/10"><p id="count-leader" class="text-3xl font-black text-blue-500">0</p><p class="text-[9px] text-gray-500 uppercase font-bold">Leader</p></div>
+                <div class="px-6 py-4 text-center border-l border-white/10"><p id="count-support" class="text-3xl font-black text-green-500">0</p><p class="text-[9px] text-gray-500 uppercase font-bold">Support</p></div>
+                <div class="px-6 py-4 text-center border-l border-white/10"><p id="count-member" class="text-3xl font-black text-cyan-400">0</p><p class="text-[9px] text-gray-500 uppercase font-bold">Member</p></div>
+            </div>
+        </header>
+
+        <div class="mb-16 max-w-xl relative group">
+            <i class="fa-solid fa-search absolute left-6 top-1/2 -translate-y-1/2 text-purple-500 transition group-focus-within:text-white"></i>
+            <input type="text" id="search-box" placeholder="ค้นหาชื่อสมาชิก..." class="w-full pl-16 pr-8 py-5 rounded-2xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-purple-600 transition-all">
+        </div>
+
+        <div id="member-container" class="space-y-24"></div>
+    </main>
+
+    <div class="fixed bottom-10 right-10 z-[100]">
+        <div class="glass p-5 flex items-center gap-6 w-80 shadow-2xl border-white/20">
+            <img id="music-art" src="https://img2.pic.in.th/logoblack.jpg" class="w-16 h-16 rounded-full border-2 border-purple-500 animate-spin-slow pause-spin object-cover">
+            <div class="flex-1 min-w-0">
+                <p class="text-[10px] font-black text-purple-500 uppercase tracking-widest">Now Playing</p>
+                <p class="text-white font-bold truncate text-sm">dernsabud diwaa</p>
+            </div>
+            <button id="play-btn" class="w-12 h-12 rounded-2xl bg-purple-600 text-white flex items-center justify-center hover:scale-110 transition">
+                <i class="fa-solid fa-play" id="play-icon"></i>
+            </button>
+            <audio id="main-audio" src="song.mp3" loop></audio>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            boss: [
+                { name: "Jayz Dernsabud", fb: "https://www.facebook.com/jayz.sabudbob168", img: "https://img1.pic.in.th/images/GTA5-2026-02-07-20-33-020.png" },
+                { name: "Lion Dernsabud", fb: "https://www.facebook.com/laknara.champagne.7?locale=th_TH", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Paak Dernsabud", fb: "https://www.facebook.com/barron.susnarok", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Martin Dernsabud", fb: "https://www.facebook.com/martin.tesfaye.331444", img: "https://img2.pic.in.th/logoblack.jpg" }
+            ],
+            leaders: [
+                { name: "Highjetz Dernsabud", fb: "https://www.facebook.com/profile.php?id=61578325345445", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Real Dernsabud", fb: "https://www.facebook.com/profile.php?id=61584562503690", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Mylittlegirl Dernsabud", fb: "https://www.facebook.com/n0ngharu", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Jayxen Dernsabud", fb: "https://www.facebook.com/profile.php?id=61584788722096", img: "https://img2.pic.in.th/logoblack.jpg" }
+            ],
+            supports: [
+                { name: "Real Winterfell", fb: "https://www.facebook.com/realsemipro", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Ares Winterfell", fb: "https://www.facebook.com/ares.winterfell", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Camp Winterfell", fb: "https://www.facebook.com/campsrhys", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Zeex Winterfell", fb: "https://www.facebook.com/zeetwoxxwtf", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Jaywynn Unfair", fb: "https://www.facebook.com/J4ywynn.588", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Whites Winterfell", fb: "https://www.facebook.com/whites.588", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Well Winterfell", fb: "https://www.facebook.com/dwsasc", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Syntax Winterfell", fb: "https://www.facebook.com/syntax.wtf", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Snow Winterfell", fb: "https://www.facebook.com/snow.wtfsmp", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Realj DernSabud", fb: "https://www.facebook.com/realj.sabudbob", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Ryoji DernSabud", fb: "https://www.facebook.com/ryoji.FivedoubleEight", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Juné DernSabud", fb: "https://www.facebook.com/junewtfsmp", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Justkidinq DernSabud", fb: "https://www.facebook.com/QxSaWanNa", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Tee DernSabud", fb: "https://www.facebook.com/justgreatbet168", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Boston DernSabud", fb: "https://www.facebook.com/billy.glaywind", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Warbirdz DernSabud", fb: "https://www.facebook.com/profile.php?id=100088764108866", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Toys DernSabud", fb: "https://www.facebook.com/profile.php?id=61581679835618", img: "https://img2.pic.in.th/logoblack.jpg" }
+            ],
+            members: [
+                { name: "นาทาน เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61578590633361", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "เผือก เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61581571356995", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Taka เดินสบัด", fb: "https://www.facebook.com/StephenDemonic", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Holy เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61581742394409", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Jeffy เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61578132133609", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Simon เดินสบัด", fb: "https://www.facebook.com/simon.diffstyle", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Tonkluai เดินสบัด", fb: "https://www.facebook.com/sm.duy.ca.luy.swn", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Joelong เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61587242542335", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Junior เดินสบัด", fb: "https://www.facebook.com/junior.diff", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Lucas เดินสบัด", fb: "https://www.facebook.com/lucas.zera", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Fiw เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61582423595957", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Jxstwhite เดินสบัด", fb: "https://www.facebook.com/jxstwhite.588", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Ryzen เดินสบัด", fb: "https://www.facebook.com/Ceyu.Rizz.WinterfellDiff", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Shimon เดินสบัด", fb: "https://www.facebook.com/shimon.ponsawan", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Hayka เดินสบัด", fb: "https://www.facebook.com/facebook.comBossSaitai", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Jaguar เดินสบัด", fb: "https://www.facebook.com/jaguar.winterfell", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Mona เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61585852523893&locale=th_TH", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Johnny เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61588317363613&locale=th_TH", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Kingg เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61576644593808&locale=th_TH", img: "https://img2.pic.in.th/logoblack.jpg" },
+                { name: "Dreamm เดินสบัด", fb: "https://www.facebook.com/profile.php?id=61579574117406&locale=th_TH", img: "https://img2.pic.in.th/logoblack.jpg" }
+            ]
+        };
+
+        const config = {
+            boss: { title: 'The Founders', type: 'type-boss', grid: 'lg:grid-cols-4' },
+            leaders: { title: 'Squad Leaders', type: 'type-leader', grid: 'lg:grid-cols-4' },
+            supports: { title: 'Elite Supports', type: 'type-support', grid: 'lg:grid-cols-6' },
+            members: { title: 'Gang Members', type: 'type-member', grid: 'lg:grid-cols-8' }
+        };
+
+        function createCard(m, type) {
+            return `
+                <div class="member-card ${type}">
+                    <div class="card-content">
+                        <img src="${m.img}" class="w-full aspect-square rounded-xl mb-4 object-cover shadow-lg">
+                        <h4 class="text-white text-[10px] font-bold truncate w-full text-center mb-4">${m.name}</h4>
+                        <a href="${m.fb}" target="_blank" class="text-gray-500 hover:text-[#1877F2] transition-all text-lg">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                    </div>
+                </div>`;
+        }
+
+        const container = document.getElementById('member-container');
+        Object.keys(config).forEach(key => {
+            let section = `<section>
+                <h2 class="text-sm font-black text-white mb-8 tracking-[0.3em] border-l-4 border-purple-600 pl-4 uppercase">${config[key].title}</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 ${config[key].grid} gap-6">`;
+            
+            data[key].forEach(m => {
+                section += createCard(m, config[key].type);
+            });
+            section += `</div></section>`;
+            container.innerHTML += section;
+        });
+
+        document.getElementById('search-box').oninput = (e) => {
+            const val = e.target.value.toLowerCase();
+            document.querySelectorAll('.member-card').forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(val) ? "block" : "none";
+            });
+        };
+
+        const audio = document.getElementById('main-audio'), btn = document.getElementById('play-btn'), icon = document.getElementById('play-icon'), art = document.getElementById('music-art');
+        btn.onclick = () => {
+            if (audio.paused) { audio.play(); icon.className = 'fa-solid fa-pause'; art.style.animationPlayState = 'running'; }
+            else { audio.pause(); icon.className = 'fa-solid fa-play'; art.style.animationPlayState = 'paused'; }
+        };
+
+        window.onload = () => {
+            document.getElementById('count-boss').innerText = data.boss.length;
+            document.getElementById('count-leader').innerText = data.leaders.length;
+            document.getElementById('count-support').innerText = data.supports.length;
+            document.getElementById('count-member').innerText = data.members.length;
+        };
+    </script>
+</body>
+</html>

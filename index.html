@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>GANGS: ONLINE OFFICIAL - Dernsabud</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        body {
+            background-color: #05060b;
+            color: #d1d5db;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        /* พื้นหลังขยับนุ่มๆ */
+        .background-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: url('https://cdn.discordapp.com/attachments/1486008850904780850/1486509885461106768/656451041_887723190913048_2529404294691293191_n.jpg?ex=69c5c3b6&is=69c47236&hm=a9492b347cce6cb07183f2b61b760b819ac0446f5779c32ade57945f31b9bbc5&');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15;
+            z-index: -1;
+            animation: backgroundZoom 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes backgroundZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        /* แสง Neon ฟุ้งๆ มุมจอ */
+        .glow-spot {
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        /* วงแหวนหมุนรอบโลโก้ */
+        .logo-wrapper {
+            position: relative;
+            padding: 40px;
+        }
+
+        .ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            border-top-color: #f59e0b;
+            border-bottom-color: #7c3aed;
+            animation: rotate 4s linear infinite;
+        }
+
+        .ring-2 {
+            position: absolute;
+            inset: 15px;
+            border-radius: 50%;
+            border: 1px dashed rgba(255,255,255,0.2);
+            animation: rotate 8s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* ปุ่มกดแบบเรืองแสง */
+        .megabutton {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .megabutton:hover {
+            background: #f59e0b;
+            color: #000;
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* เครื่องเล่นเพลงแบบกระจก */
+        .glass-player {
+            background: rgba(10, 11, 16, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .playing-art {
+            animation: rotateArt 6s linear infinite;
+        }
+
+        @keyframes rotateArt {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen relative">
+
+    <div class="background-overlay"></div>
+    
+    <div class="glow-spot top-[-10%] left-[-10%] bg-purple-600"></div>
+    <div class="glow-spot bottom-[-10%] right-[-10%] bg-amber-600"></div>
+
+    <div class="fixed top-8 left-10 flex items-center gap-4 z-50">
+        <div class="h-[1px] w-12 bg-amber-500"></div>
+        <div class="text-[10px] uppercase tracking-[0.5em] text-gray-400 font-bold">
+            GANGS: ONLINE <span class="text-amber-500 ml-2">●</span> OFFICIAL
+        </div>
+    </div>
+
+    <main class="flex-1 flex items-center justify-around px-20 max-w-[1600px] mx-auto w-full">
+        
+        <div class="max-w-xl">
+            <p class="text-amber-500 text-xs font-bold uppercase tracking-[0.6em] mb-4">เดินสบัด 2k26</p>
+            <h1 class="text-9xl font-black text-white italic tracking-tighter mb-6 leading-none">
+                DERN<br><span class="text-transparent" style="-webkit-text-stroke: 1.5px white;">SABUD</span>
+            </h1>
+            <p class="text-gray-400 text-sm mb-12 max-w-sm leading-relaxed border-l-2 border-amber-500 pl-6">
+                ยินดีต้อนรับเข้าสู่ครอบครัวเดินสบัด เว็บไซต์อย่างเป็นทางการสำหรับสมาชิกทุกคน
+            </p>
+            
+            <div class="flex flex-col gap-5 w-80">
+                <a href="members.html" class="megabutton group flex items-center justify-between px-8 py-5 rounded-2xl">
+                    <span class="text-sm font-black uppercase tracking-widest">DERNSABUD</span>
+                    <i class="fa-solid fa-arrow-right-long group-hover:translate-x-2 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="logo-wrapper w-[450px] aspect-square flex items-center justify-center">
+            <div class="ring"></div>
+            <div class="ring-2"></div>
+            <div class="relative w-full h-full rounded-full overflow-hidden border-4 border-[#0c0d12] shadow-2xl">
+                <img src="https://img2.pic.in.th/logoblack.jpg" alt="Logo" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+    </main>
+
+    <div class="fixed bottom-10 right-10 z-[100]">
+        <div class="glass-player p-5 flex items-center gap-6 w-80 rounded-3xl">
+            <div class="relative w-16 h-16">
+                <img id="track-art" src="https://img2.pic.in.th/logoblack.jpg" alt="Art" class="w-full h-full rounded-full object-cover border-2 border-amber-500/50 transition-transform duration-500">
+            </div>
+
+            <div class="flex-1 overflow-hidden">
+                <p class="text-[9px] text-amber-500 font-black uppercase tracking-widest mb-1">Now Playing</p>
+                <p class="text-sm font-bold text-white truncate mb-1">Dernsabud Diwaa</p>
+                <div class="flex gap-1">
+                    <div class="w-1 h-3 bg-amber-500 animate-pulse"></div>
+                    <div class="w-1 h-3 bg-amber-500 animate-pulse" style="animation-delay: 0.2s"></div>
+                    <div class="w-1 h-3 bg-amber-500 animate-pulse" style="animation-delay: 0.4s"></div>
+                </div>
+            </div>
+
+            <button id="playpause-btn" class="w-12 h-12 rounded-2xl bg-amber-500 text-black flex items-center justify-center hover:scale-110 transition-all shadow-lg shadow-amber-500/20">
+                <i class="fa-solid fa-play text-xl" id="play-icon"></i>
+            </button>
+        </div>
+        <audio id="main-audio" src="song.mp3" loop></audio>
+    </div>
+
+    <script>
+        const audio = document.getElementById('main-audio');
+        const playBtn = document.getElementById('playpause-btn');
+        const playIcon = document.getElementById('play-icon');
+        const trackArt = document.getElementById('track-art');
+        
+        let isPlaying = false;
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.className = 'fa-solid fa-play text-xl';
+                trackArt.classList.remove('playing-art');
+            } else {
+                audio.play().catch(e => console.log("ต้องการการโต้ตอบจากผู้ใช้เพื่อเริ่มเล่นเพลง"));
+                playIcon.className = 'fa-solid fa-pause text-xl';
+                trackArt.classList.add('playing-art');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        playBtn.addEventListener('click', togglePlay);
+        audio.volume = 0.6; 
+    </script>
+</body>
+</html>
